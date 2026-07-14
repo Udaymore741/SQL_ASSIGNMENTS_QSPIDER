@@ -2,6 +2,27 @@
 
 Oracle SQL practice assignments using the classic `EMP` table. Each file contains SQL queries executed in SQL*Plus, including errors encountered and their corrections.
 
+---
+
+## Table of Contents
+
+- [EMP Table Structure](#emp-table-structure)
+- [Assignment Files](#assignment-files)
+  - [1. WHERE Clause](#1-where-clause)
+  - [2. Concatenation](#2-concatenation)
+  - [3. BETWEEN Operator](#3-between-operator)
+  - [4. IN Operator](#4-in-operator)
+  - [5. LIKE Operator](#5-like-operator)
+  - [6. LIKE + IN + BETWEEN](#6-like-in-between)
+  - [7. ORDER BY Clause](#7-order-by-clause)
+  - [8. GROUP BY Clause](#8-group-by-clause)
+  - [9. HAVING Clause](#9-having-clause)
+  - [10. Subqueries - Case 1](#10-subqueries---case-1)
+  - [11. Mock Test](#11-mock-test)
+- [Key Concepts Covered](#key-concepts-covered)
+
+---
+
 ## EMP Table Structure
 
 | Column   | Description                        |
@@ -18,6 +39,7 @@ Oracle SQL practice assignments using the classic `EMP` table. Each file contain
 ---
 
 ## Assignment Files
+
 
 ### 1. `ASSIGNMENT 4_WHERE_CLAUSE_2.txt`
 Filtering records using the `WHERE` clause with `AND` / `OR` operators.
@@ -76,7 +98,13 @@ Post-aggregation filtering using `HAVING`.
 - Find duplicate salary/hire date values
 - Combine `WHERE` (row filter) with `HAVING` (group filter)
 
-### 10. `MOCK_TEST.txt`
+### 10. `SUB_QUERIES_CASE_1.txt`
+Introduction to subqueries (nested SELECT statements) - Case 1.
+- Single-row subqueries using comparison operators
+- Using subquery results in `WHERE` clause filters
+- Nesting queries to find employees based on dynamic conditions (e.g. same job, same dept, higher salary)
+
+### 11. `MOCK_TEST.txt`
 Mock test with mixed SQL concepts.
 - Complex multi-condition `WHERE` clauses
 - Arithmetic expressions in filters (`SAL * 6`, `SAL * 12`)
@@ -92,5 +120,6 @@ Mock test with mixed SQL concepts.
 - `BETWEEN`, `IN`, `LIKE` operators
 - String concatenation with `||`
 - Aggregate functions: `COUNT`, `SUM`, `AVG`, `MIN`, `MAX`
+- Subqueries (nested `SELECT` statements)
 - Arithmetic expressions and column aliases
 - Common SQL errors and their fixes (typos, missing keywords, invalid identifiers)
