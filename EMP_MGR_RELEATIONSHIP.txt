@@ -1,0 +1,399 @@
+SQL> SELECT * FROM EMP ;
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------
+      7369 SMITH      CLERK           7902 17-DEC-80        800                    20
+      7499 ALLEN      SALESMAN        7698 20-FEB-81       1600        300         30
+      7521 WARD       SALESMAN        7698 22-FEB-81       1250        500         30
+      7566 JONES      MANAGER         7839 02-APR-81       2975                    20
+      7654 MARTIN     SALESMAN        7698 28-SEP-81       1250       1400         30
+      7698 BLAKE      MANAGER         7839 01-MAY-81       2850                    30
+      7782 CLARK      MANAGER         7839 09-JUN-81       2450                    10
+      7788 SCOTT      ANALYST         7566 19-APR-87       3000                    20
+      7839 KING       PRESIDENT            17-NOV-81       5000                    10
+      7844 TURNER     SALESMAN        7698 08-SEP-81       1500          0         30
+      7876 ADAMS      CLERK           7788 23-MAY-87       1100                    20
+      7900 JAMES      CLERK           7698 03-DEC-81        950                    30
+      7902 FORD       ANALYST         7566 03-DEC-81       3000                    20
+      7934 MILLER     CLERK           7782 23-JAN-82       1300                    10
+
+14 rows selected.
+
+SQL> SELECT * FROM DEPT;
+
+    DEPTNO DNAME          LOC
+---------- -------------- -------------
+        10 ACCOUNTING     NEW YORK
+        20 RESEARCH       DALLAS
+        30 SALES          CHICAGO
+        40 OPERATIONS     BOSTON
+
+SQL> -- SUB_QUERY_EMP_MGR
+SQL> 
+SQL> SELECT ENAME 
+  2  FROM EMP
+  3  WHERE EMPNO IN ( SELECT MGR 
+  4                FROM EMP 
+  5                WHERE ENAME = 'SMITH');
+
+ENAME
+----------
+FORD
+
+SQL> ----2]  WAQTD MILLER'S MANAGER'S SALARY.
+SQL> 
+SQL> SELECT SAL 
+  2  FROM EMP 
+  3  WHERE EMPNO IN ( SELECT MGR 
+  4                  FROM EMP 
+  5                 WHERE ENAME = 'MILLER');
+
+       SAL
+----------
+      2450
+
+SQL> ----3] WAQTD ALLEN'S MANAGER NAME.
+SQL> 
+SQL> SELECT ENAME
+  2  FROM EMP 
+  3  WHERE EMPNO IN ( SELECT MGR 
+  4                  FROM EMP 
+  5                   WHERE ENAME = 'ALLEN');
+
+ENAME
+----------
+BLAKE
+
+SQL> --4] WAQTD SALARY OF ADAMS MANAGER. 
+SQL> 
+SQL> SELCET SAL 
+SP2-0042: unknown command "SELCET SAL" - rest of line ignored.
+SQL> SELECT SAL 
+  2  FROM EMP 
+  3  WHERE EMPNO IN ( SELECT MGR 
+  4                  FROM EMP 
+  5                  WHERE ENAME = 'ADAMS');
+
+       SAL
+----------
+      3000
+
+SQL> --5] WAQTD NAME OF ADAM'S MANAGER'S MANAGER. 
+SQL> 
+SQL> SELECT ENAME 
+  2  FROM EMP 
+  3  WHERE EMPNO IN ( SELECT MGR 
+  4                  FROM EMP 
+  5                  WHERE EMPNO IN ( SELECT MGR 
+  6                                  FROM EMP
+  7                                  WHERE ENAME = 'ADAM'));
+
+no rows selected
+
+SQL> C/ADAM/ADAMS
+  7*                                 WHERE ENAME = 'ADAMS'))
+SQL> /
+
+ENAME
+----------
+JONES
+
+SQL> ---6] WAQTD LOCATION OF SMITH'S MANAGER'S MANAGER.
+SQL> 
+SQL> SELECT LOC 
+  2  FROM DEPT
+  3  WHERE DEPTNO IN ( SELECT DEPTNO 
+  4                   FROM EMP 
+  5                   WHERE EMPNO IN ( SELECT MGR 
+  6                                   FROM EMP 
+  7                                   WHERE EMPNO IN ( SELECT MGR 
+  8                                                  FROM EMP 
+  9                                                  WHERE ENAME = 'SMITH')));
+
+LOC
+-------------
+DALLAS
+
+SQL> ---7] WAQTD NUMBER OF EMP'S REPORTING TO KING
+SQL> 
+SQL> SELECT COUNT(*) 
+  2  FROM EMP 
+  3  WHERE MGR IN ( SELECT EMPNO 
+  4               FROM EMP 
+  5               WHERE ENAME = 'KING');
+
+  COUNT(*)
+----------
+         3
+
+SQL> ---8] WAQTD NAME OF AN EMP REPORTING TO BLAKE.
+SQL> 
+SQL> 
+SQL> SELECT ENAME 
+  2  FROM EMP 
+  3  WHERE MGR IN ( SELECT EMPNO 
+  4                 FROM EMP 
+  5                WHERE ENAME = 'BLAKE');
+
+ENAME
+----------
+ALLEN
+WARD
+MARTIN
+TURNER
+JAMES
+
+SQL> ---9] WAQTD DETAILS OF AN EMP REPORTING TO JONES. 
+SQL> 
+SQL> SELECT * 
+  2  FROM EMP 
+  3  WHERE MGR IN ( SELECT EMPNO 
+  4                FROM EMP 
+  5               WHERE ENAME = 'JONES');
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------
+      7788 SCOTT      ANALYST         7566 19-APR-87       3000                    20
+      7902 FORD       ANALYST         7566 03-DEC-81       3000                    20
+
+SQL> ---10] WAQTD LOCATION OF MARTIN'S MANAGER.
+SQL> 
+SQL> SELECT LOC 
+  2  FROM DEPT
+  3  WHERE DEPTNO IN ( SELECT DEPTNO 
+  4                   FROM EMP 
+  5                  WHERE EMPNO IN ( SELECT MGR
+  6                                  FROM EMP 
+  7                                 WHERE ENAME = 'MARTIN'));
+
+LOC
+-------------
+CHICAGO
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT LOC
+  2  FROM DEPT
+  3  WHERE DEPTNO IN ( SELECT DEPTNO
+  4                   FROM EMP
+  5                  WHERE EMPNO IN ( SELECT MGR
+  6                                  FROM EMP
+  7*                                WHERE ENAME = 'MARTIN'))
+SQL> 
+SQL> 
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT LOC
+  2  FROM DEPT
+  3  WHERE DEPTNO IN ( SELECT DEPTNO
+  4                   FROM EMP
+  5                  WHERE EMPNO IN ( SELECT MGR
+  6                                  FROM EMP
+  7*                                WHERE ENAME = 'MARTIN'))
+SQL> 
+SQL> /
+
+LOC
+-------------
+CHICAGO
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT DNAME
+  2  FROM DEPT
+  3  WHERE DEPTNO IN ( SELECT DEPTNO
+  4                   FROM EMP
+  5                  WHERE EMPNO IN ( SELECT MGR
+  6                                  FROM EMP
+  7*                                WHERE ENAME = 'MARTIN'))
+SQL> /
+
+DNAME
+--------------
+SALES
+
+SQL> ---11] WAQTD NUMBER OF EMP'S REPORTING TO FORD. 
+SQL> 
+SQL> SELCET COUNT(*) 
+SP2-0734: unknown command beginning "SELCET COU..." - rest of line ignored.
+SQL> SELECT COUNT(*)
+  2  FROM EMP 
+  3  WHERE MGR IN ( SELCET EMPNO 
+  4               FROM EMP 
+  5              WHERE ENAME = 'FORD');
+WHERE MGR IN ( SELCET EMPNO
+                      *
+ERROR at line 3:
+ORA-00907: missing right parenthesis
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT COUNT(*)
+  2  FROM EMP
+  3  WHERE MGR IN ( SELCET EMPNO
+  4               FROM EMP
+  5*             WHERE ENAME = 'FORD')
+SQL> /
+WHERE MGR IN ( SELCET EMPNO
+                      *
+ERROR at line 3:
+ORA-00907: missing right parenthesis
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT COUNT(*)
+  2  FROM EMP
+  3  WHERE MGR IN ( SELECT EMPNO
+  4               FROM EMP
+  5*             WHERE ENAME = 'FORD')
+SQL> /
+
+  COUNT(*)
+----------
+         1
+
+SQL> --2] WAQTD COMMISION OF BLAKE'S MANAGER'S MANAGER.
+SQL> 
+SQL> SELECT COMM 
+  2  FROM EMP 
+  3  WHERE EMPNO IN ( SELECT MGR 
+  4                 FROM EMP 
+  5                 WHERE EMPNO IN ( SELECT MGR 
+  6                                FROM EMP
+  7                                WHERE ENAME = 'BLAKE'));
+
+no rows selected
+
+SQL> ---13] WAQTD DEPARTMENT NAME OF CLARK'S MANAGER. 
+SQL> 
+SQL> SELECT DNAME 
+  2  FROM DEPT 
+  3  WHERE DEPTNO IN ( SELECT DEPTNO 
+  4                   FROM EMP 
+  5                   WHERE EMPNO IN ( SELECT MGR  
+  6                                  FROM EMP 
+  7                                  WHERE ENAME = 'CLARK'));
+
+DNAME
+--------------
+ACCOUNTING
+
+SQL> ---14] WAQTD LOCATION OF SCOTT'S MANAGER. 
+SQL> 
+SQL> SELECT LOC 
+  2  FROM DEPT 
+  3  WHERE DEPTNO IN ( SELECT DEPTNO 
+  4                    FROM EMP 
+  5                   WHERE EMPNO IN ( SELECT MGR 
+  6                                   FROM EMP 
+  7                                  WHERE ENAME = 'SCOTT'));
+
+LOC
+-------------
+DALLAS
+
+SQL> ---15] WAQTD DEPTNO OF MILLER'S MANAGER. 
+SQL> 
+SQL> SELECT DEPTNO 
+  2  FROM EMP 
+  3  WHERE EMPNO IN ( SELECT MGR 
+  4                 FROM EMP 
+  5                 WHERE ENAME = 'MILLER');
+
+    DEPTNO
+----------
+        10
+
+SQL> ---16] WAQTD TOTAL SALARY GIVEN TO WARD'S MANAGER'S 
+SQL> DEPTNO.
+SP2-0042: unknown command "DEPTNO." - rest of line ignored.
+SQL> 
+SQL> 
+SQL> SELECT SUM(SAL)
+  2  FROM EMP
+  3  WHERE DEPTNO IN ( SELECT DEPTNO 
+  4                   FROM EMP
+  5                   WHERE EMPNO IN ( SELECT MGR 
+  6                                   FROM EMP 
+  7                                   WHERE ENAME = 'WARD'));
+
+  SUM(SAL)
+----------
+      9400
+
+SQL> --17] WAQTD MINIMUM SALARY GIVEN TO TURNER'S MANAGER'S 
+SQL> --DEPTNO 
+SQL> 
+SQL> SELECT MIN(SAL)
+  2  FROM EMP 
+  3  WHERE DEPTNO IN ( SELECT DEPTNO 
+  4                  FROM EMP
+  5                 WHERE EMPNO IN ( SELECT MGR 
+  6                               FROM EMP 
+  7                               WHERE ENAME = 'TURNER'));
+
+  MIN(SAL)
+----------
+       950
+
+SQL> ---18] WAQTD AVERAGE SALARY GIVEN TO JONE'S MANAGER'S 
+SQL> ---DEPTNO 
+SQL> 
+SQL> SELECT AVG(SAL)
+  2  FROM EMP 
+  3  WHERE DEPTNO IN ( SELECT DEPTNO
+  4                 FROM EMP 
+  5                 WHERE EMPNO IN ( SELECT MGR 
+  6                                FROM EMP 
+  7                               WHERE ENAME = 'JONES'));
+
+  AVG(SAL)
+----------
+2916.66667
+
+SQL> --19] WAQTD NUMBER OF EMP'S PRESENT IN JAMES MANAGER'S 
+SQL> --DEPTNO 
+SQL> 
+SQL> SELECT COUNT(*)
+  2  FROM EMP 
+  3  WHERE DEPTNO IN ( SELECT DEPTNO 
+  4                    FROM EMP 
+  5                    WHERE EMPNO IN ( SELCET MGR 
+  6                                    FROM EMP  
+  7                                    WHERE ENAME = 'JAMES'));
+                  WHERE EMPNO IN ( SELCET MGR
+                                          *
+ERROR at line 5:
+ORA-00907: missing right parenthesis
+
+
+SQL> C/SELCET/SELECT
+  5*                   WHERE EMPNO IN ( SELECT MGR
+SQL> /
+
+  COUNT(*)
+----------
+         6
+
+SQL> --20] WAQTD FIRST FIVE RECORDS FROM EMP TABLE.
+SQL> 
+SQL> SELECT *
+  2  FROM EMP
+  3  WHERE ROWNUM <= 5;
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------
+      7369 SMITH      CLERK           7902 17-DEC-80        800                    20
+      7499 ALLEN      SALESMAN        7698 20-FEB-81       1600        300         30
+      7521 WARD       SALESMAN        7698 22-FEB-81       1250        500         30
+      7566 JONES      MANAGER         7839 02-APR-81       2975                    20
+      7654 MARTIN     SALESMAN        7698 28-SEP-81       1250       1400         30
+
+SQL> 
