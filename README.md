@@ -19,6 +19,7 @@ Oracle SQL practice assignments using the classic `EMP` table. Each file contain
   - [9. HAVING Clause](#9-having-clause)
   - [10. Subqueries - Case 1](#10-subqueries---case-1)
   - [11. Mock Test](#11-mock-test)
+  - [12. Sub Queries Case 2](#12-sub-queries-case-2)
 - [Key Concepts Covered](#key-concepts-covered)
 
 ---
@@ -110,6 +111,10 @@ Mock test with mixed SQL concepts.
 - Arithmetic expressions in filters (`SAL * 6`, `SAL * 12`)
 - Combining `AND`, `OR`, `LIKE`, `IN`, comparison operators
 - Score: **5.5 / 10**
+
+### 12. `SUB_QUERIES_CASE_2.txt`
+SQL practice queries — `SUB_QUERIES_CASE_2.txt`.
+- Queries and results from SQL*Plus session
 
 ---
 
